@@ -1,0 +1,20 @@
+.container {
+margin: 0 auto;
+}
+
+.jumbotron {
+    background-color: #7f462c;
+}
+
+.card-header {
+    background-color: #337ab7;
+}
+
+.card {
+
+    margin-bottom: 30px;
+}
+
+.btn {
+    background-color:  #337ab7;
+}
