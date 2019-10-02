@@ -32,31 +32,35 @@ $("#button").on("click", function () {
     newFrequency = $("#frequency").val().trim();
 
     // NEXT ARRIVAL AND MINUTES AWAY
+    // Array of times train arrives on a given day
 
-    // First arrival (pushed back 1 year to make sure it comes before current time)
-    var firstArrivalConverted = moment(newTrainTime, "HH:mm").subtract(1, "years");
-    console.log(firstArrivalConverted);
-
-    // Current Time
-    var currentTime = moment();
-    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
-
-    // Difference between the times
-    var diffTime = moment().diff(moment(firstArrivalConverted), "minutes");
-    console.log("DIFFERENCE IN TIME: " + diffTime);
-
-    // Time apart (remainder)
-    var tRemainder = diffTime % newFrequency;
-    console.log(tRemainder);
-
-    // Minute Until Train
-    var newMinutesAway = newFrequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + newMinutesAway);
+    // Convert first train time to minutes from midnight
+    // var firstTrainTimeMinutes = moment("00:00:00", )
 
 
-    // Next Train
-    var tnewNextArrival = moment().add(newMinutesAway, "minutes");
-    var newNextArrival = moment(tnewNextArrival).format("hh:mm A");
+    var format = "HH:mm";
+    var convertedTime = moment(newTrainTime, format);
+    var midnight = "00:00";
+    moment.utc(moment(convertedTime, "HH:mm").diff(moment(midnight, "HH:mm")))
+
+    // var iterationsUntilMidnight = (newFrequency
+
+    // for (var i = 0; i <)
+
+    //     arrivalTimes = (newTrainTime
+
+    // Truncate array at 23:59
+    var convertedTime = moment(sv.newTrainTime, format);
+    var minutes = (1440 - (moment.duration(convertedTime.format("HH:mm")).asMinutes()));
+    console.log(minutes);
+    var numberArrivals = (minutes / sv.newFrequency)
+    console.log(numberArrivals);
+    for (i = 0; i < numberArrivals; i++) {
+        console.log(moment.utc(moment.duration((sv.frequency * [i]), "minutes").asMilliseconds()).format("HH:mm"))
+        // console.log(sv.newTrainTime + 
+    }
+
+    // Find value closest to right now
 
     // Push variables to Firebase
     database.ref().push({
@@ -64,8 +68,8 @@ $("#button").on("click", function () {
         newDestination: newDestination,
         newTrainTime: newTrainTime,
         newFrequency: newFrequency,
-        newNextArrival: newNextArrival,
-        newMinutesAway: newMinutesAway
+        // newNextArrival: newNextArrival,
+        // newMinutesAway: newMinutesAway
 
     });
 });
@@ -79,8 +83,8 @@ database.ref().on("child_added", function (snapshot) {
     console.log(sv.newDestination);
     console.log(sv.newTrainTime);
     console.log(sv.newFrequency);
-    console.log(sv.newNextArrival);
-    console.log(sv.newMinutesAway);
+    // console.log(sv.newNextArrival);
+    // console.log(sv.newMinutesAway);
 
     // Change HTML to Firebase info
     var row = $("<tr>");
