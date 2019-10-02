@@ -57,7 +57,7 @@ $("#button").on("click", function () {
 
     // Next Train
     var tnewNextArrival = moment().add(newMinutesAway, "minutes");
-    var newNextArrival = moment(tnewNextArrival).format("hh:mm");
+    var newNextArrival = moment(tnewNextArrival).format("hh:mm A");
 
     // Push variables to Firebase
     database.ref().push({
