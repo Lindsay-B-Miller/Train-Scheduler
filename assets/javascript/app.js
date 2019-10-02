@@ -1,13 +1,12 @@
 // Initialize Firebase
 var config = {
-    apiKey: "AIzaSyD0FKx_tpPanpfmuh0yDd5rDVc_P5TqwXI",
-    authDomain: "fir-project-96028.firebaseapp.com",
-    databaseURL: "https://fir-project-96028.firebaseio.com",
-    projectId: "fir-project-96028",
+    apiKey: "AIzaSyB7UhrGJhpIqbszUt5nTGLnrAkagTALbIY",
+    authDomain: "train-tracker-b103f.firebaseapp.com",
+    databaseURL: "https://train-tracker-b103f.firebaseio.com",
+    projectId: "train-tracker-b103f",
     storageBucket: "",
-    messagingSenderId: "359662097807",
-    appId: "1:359662097807:web:7dd1352a6b5c3230f1e7fa"
-
+    messagingSenderId: "112135017172",
+    appId: "1:112135017172:web:21a9154c45a9638ad72141"
 };
 
 firebase.initializeApp(config);
