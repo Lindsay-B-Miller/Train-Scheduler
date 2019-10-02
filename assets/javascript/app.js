@@ -72,21 +72,16 @@ database.ref().on("child_added", function (snapshot) {
     // Array of times train arrives on a given day
 
     // Convert first train time to minutes from midnight
-    // var firstTrainTimeMinutes = moment("00:00:00", )
-
-
     var format = "HH:mm";
-    var convertedTime = moment(newTrainTime, format);
-    var midnight = "00:00";
-    moment.utc(moment(convertedTime, "HH:mm").diff(moment(midnight, "HH:mm")))
-
-    // var iterationsUntilMidnight = (newFrequency
-
-    // for (var i = 0; i <)
-
-    //     arrivalTimes = (newTrainTime
-
-    // Truncate array at 23:59
+    var convertedTime = moment(sv.newTrainTime, format);
+    var minutes = (1440 - (moment.duration(convertedTime.format("HH:mm")).asMinutes()));
+    console.log(minutes);
+    var numberArrivals = (minutes / sv.newFrequency)
+    console.log(numberArrivals);
+    for (i = 0; i < numberArrivals; i++) {
+        console.log(moment.utc(moment.duration((sv.frequency * [i]), "minutes").asMilliseconds()).format("HH:mm"))
+        // console.log(sv.newTrainTime + 
+    }
 
     // Find value closest to right now
 
