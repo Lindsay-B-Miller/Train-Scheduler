@@ -56,7 +56,7 @@ database.ref().on("child_added", function (snapshot) {
     var currentMinutes = (moment.duration(moment().format("HH:mm")).asMinutes());
     var difference = (currentMinutes - arrivalMinutes);
     console.log(arrivalMinutes);
-    console.log(currentMinutes);
+    console.log("current minutes: " + currentMinutes);
     console.log(difference);
 
     //divide diff by frequency get remainder
@@ -66,6 +66,9 @@ database.ref().on("child_added", function (snapshot) {
     var minutesTillTrain = (sv.newFrequency - remainder);
     console.log("Minutes till train: " + minutesTillTrain);
     // add that to moment()
+    var nextTrainMinutes = (currentMinutes + minutesTillTrain);
+    var nextTrain = moment(nextTrainMinutes).format("HH:mm");
+    console.log("next train: " + nextTrain);
 
 
 
@@ -90,7 +93,7 @@ database.ref().on("child_added", function (snapshot) {
     frequency.append(sv.newFrequency);
     row.append(frequency);
     var nextArrival = $("<td>");
-    nextArrival.append(sv.newNextArrival);
+    nextArrival.append(nextTrain);
     row.append(nextArrival);
     var minutesAway = $("<td>");
     minutesAway.append(minutesTillTrain);
