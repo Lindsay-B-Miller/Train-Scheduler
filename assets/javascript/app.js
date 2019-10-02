@@ -19,7 +19,9 @@ var newTrainName = "";
 var newDestination = "";
 var newTrainTime = "";
 var newFrequency = "";
-var arrivalTimes = [];
+var nextArrival;
+var minutesAway;
+
 
 
 
@@ -46,11 +48,35 @@ $("#button").on("click", function () {
 database.ref().on("child_added", function (snapshot) {
     var sv = snapshot.val();
 
+    // get difference of current time and start time = chunk of time in minutes
+    var format = "HH:mm";
+
+    var convertedTime = moment(sv.newTrainTime, format);
+    var arrivalMinutes = (moment.duration(convertedTime.format("HH:mm")).asMinutes());
+    var currentMinutes = (moment.duration(moment().format("HH:mm")).asMinutes());
+    var difference = (currentMinutes - arrivalMinutes);
+    console.log(arrivalMinutes);
+    console.log(currentMinutes);
+    console.log(difference);
+
+    //divide diff by frequency get remainder
+    var remainder = (difference % sv.newFrequency)
+    console.log(remainder);
+    //subtract that remainder from frequency = gives us # of minutes to next train
+    var minutesTillTrain = (sv.newFrequency - remainder);
+    console.log("Minutes till train: " + minutesTillTrain);
+    // add that to moment()
+
+
+
+
+
     // Console log the last input
     console.log("train name: " + sv.newTrainName);
     console.log("dest: " + sv.newDestination);
     console.log("start time: " + sv.newTrainTime);
     console.log("freq: " + sv.newFrequency);
+
 
     // Change HTML to Firebase info
     var row = $("<tr>");
@@ -67,7 +93,7 @@ database.ref().on("child_added", function (snapshot) {
     nextArrival.append(sv.newNextArrival);
     row.append(nextArrival);
     var minutesAway = $("<td>");
-    minutesAway.append(sv.newMinutesAway);
+    minutesAway.append(minutesTillTrain);
     row.append(minutesAway);
 
 
@@ -75,10 +101,11 @@ database.ref().on("child_added", function (snapshot) {
     $("tbody").append(row);
 
 
-},
     // Handle the errors
-    function (errorObject) {
-        console.log("Errors handled: " + errorObject.code);
-    });
+}, function (errorObject) {
+    console.log("Errors handled: " + errorObject.code);
+});
+
+
 
 
