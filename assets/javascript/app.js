@@ -56,8 +56,8 @@ $("#button").on("click", function () {
 
 
     // Next Train
-    var newNextArrival = moment().add(newMinutesAway, "minutes");
-    console.log("ARRIVAL TIME: " + moment(newNextArrival).format("hh:mm"));
+    var tnewNextArrival = moment().add(newMinutesAway, "minutes");
+    var newNextArrival = moment(tnewNextArrival).format("hh:mm");
 
     // Push variables to Firebase
     database.ref().push({
@@ -94,12 +94,12 @@ database.ref().on("child_added", function (snapshot) {
     var frequency = $("<td>")
     frequency.append(sv.newFrequency);
     row.append(frequency);
-    // var nextArrival = $("<td>");
-    // nextArrival.append(sv.newNextArrival);
-    // row.append(nextArrival);
-    // var minutesAway = $("<td>");
-    // minutesAway.append(sv.newMinutesAway);
-    // row.append(minutesAway);
+    var nextArrival = $("<td>");
+    nextArrival.append(sv.newNextArrival);
+    row.append(nextArrival);
+    var minutesAway = $("<td>");
+    minutesAway.append(sv.newMinutesAway);
+    row.append(minutesAway);
 
 
 
