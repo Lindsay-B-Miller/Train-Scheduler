@@ -32,16 +32,42 @@ $("#button").on("click", function () {
     newTrainTime = $("#first-train-time").val().trim();
     newFrequency = $("#frequency").val().trim();
 
-    // Time away calculation
+    // NEXT ARRIVAL AND MINUTES AWAY
+
+    // First arrival (pushed back 1 year to make sure it comes before current time)
+    var firstArrivalConverted = moment(newTrainTime, "HH:mm").subtract(1, "years");
+    console.log(firstArrivalConverted);
+
+    // Current Time
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+    // Difference between the times
+    var diffTime = moment().diff(moment(firstArrivalConverted), "minutes");
+    console.log("DIFFERENCE IN TIME: " + diffTime);
+
+    // Time apart (remainder)
+    var tRemainder = diffTime % newFrequency;
+    console.log(tRemainder);
+
+    // Minute Until Train
+    var newMinutesAway = newFrequency - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + newMinutesAway);
 
 
+    // Next Train
+    var newNextArrival = moment().add(newMinutesAway, "minutes");
+    console.log("ARRIVAL TIME: " + moment(newNextArrival).format("hh:mm"));
 
     // Push variables to Firebase
     database.ref().push({
         newTrainName: newTrainName,
         newDestination: newDestination,
         newTrainTime: newTrainTime,
-        newFrequency: newFrequency
+        newFrequency: newFrequency,
+        newNextArrival: newNextArrival,
+        newMinutesAway: newMinutesAway
+
     });
 });
 
@@ -50,10 +76,12 @@ database.ref().on("child_added", function (snapshot) {
     var sv = snapshot.val();
 
     // Console log the last input
-    console.log(sv.newTrainName)
-    console.log(sv.newDestination)
-    console.log(sv.newTrainTime)
-    console.log(sv.newFrequency)
+    console.log(sv.newTrainName);
+    console.log(sv.newDestination);
+    console.log(sv.newTrainTime);
+    console.log(sv.newFrequency);
+    console.log(sv.newNextArrival);
+    console.log(sv.newMinutesAway);
 
     // Change HTML to Firebase info
     var row = $("<tr>");
@@ -66,30 +94,13 @@ database.ref().on("child_added", function (snapshot) {
     var frequency = $("<td>")
     frequency.append(sv.newFrequency);
     row.append(frequency);
+    // var nextArrival = $("<td>");
+    // nextArrival.append(sv.newNextArrival);
+    // row.append(nextArrival);
+    // var minutesAway = $("<td>");
+    // minutesAway.append(sv.newMinutesAway);
+    // row.append(minutesAway);
 
-    // NEXT ARRIVAL AND MINUTES AWAY
-
-    // Array of times train arrives on a given day
-
-    // Convert first train time to minutes from midnight
-    var format = "HH:mm";
-    var convertedTime = moment(sv.newTrainTime, format);
-    var minutes = (1440 - (moment.duration(convertedTime.format("HH:mm")).asMinutes()));
-    console.log(minutes);
-    var numberArrivals = (minutes / sv.newFrequency)
-    console.log(numberArrivals);
-    for (i = 0; i < numberArrivals; i++) {
-        console.log(moment.utc(moment.duration((sv.frequency * [i]), "minutes").asMilliseconds()).format("HH:mm"))
-        // console.log(sv.newTrainTime + 
-    }
-
-    // Find value closest to right now
-
-    // Push that value to Next Arrival
-
-    // Calculate minutes between Next Arrival and now
-
-    // Push this value to Minutes Away
 
 
 
