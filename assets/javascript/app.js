@@ -55,20 +55,28 @@ database.ref().on("child_added", function (snapshot) {
     var arrivalMinutes = (moment.duration(convertedTime.format("HH:mm")).asMinutes());
     var currentMinutes = (moment.duration(moment().format("HH:mm")).asMinutes());
     var difference = (currentMinutes - arrivalMinutes);
-    console.log(arrivalMinutes);
-    console.log("current minutes: " + currentMinutes);
-    console.log(difference);
+    // console.log(arrivalMinutes);
+    // console.log("current minutes: " + currentMinutes);
+    // console.log("diff between now minutes and arriavla minutes: " + difference);
 
     //divide diff by frequency get remainder
     var remainder = (difference % sv.newFrequency)
-    console.log(remainder);
+    console.log("remainder: " + remainder);
     //subtract that remainder from frequency = gives us # of minutes to next train
     var minutesTillTrain = (sv.newFrequency - remainder);
     console.log("Minutes till train: " + minutesTillTrain);
     // add that to moment()
     var nextTrainMinutes = (currentMinutes + minutesTillTrain);
-    var nextTrain = moment(nextTrainMinutes).format("HH:mm");
-    console.log("next train: " + nextTrain);
+    console.log("next train minutes: " + nextTrainMinutes);
+    var nextTrain = moment().add(minutesTillTrain, "minutes").format("H:mm A");
+    // var hours = nextTrainMinutes / 60
+    // var minutes = nextTrainMinutes % 60
+    // console.log(hours)
+    // console.log(minutes)
+    // moment(hours, minutes).format("HH:mm")
+    // console.log(nextTrain)
+    // var nextTrain = moment.duration(nextTrainMinutes, 'minutes');
+    // console.log("next train: " + nextTrain);
 
 
 
