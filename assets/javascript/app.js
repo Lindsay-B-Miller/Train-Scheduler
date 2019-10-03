@@ -50,36 +50,34 @@ database.ref().on("child_added", function (snapshot) {
 
     // get difference of current time and start time = chunk of time in minutes
     var format = "HH:mm";
+    var difference;
+    var minutesTillTrain;
+    var nextTrain;
 
     var convertedTime = moment(sv.newTrainTime, format);
     var arrivalMinutes = (moment.duration(convertedTime.format("HH:mm")).asMinutes());
     var currentMinutes = (moment.duration(moment().format("HH:mm")).asMinutes());
-    var difference = (currentMinutes - arrivalMinutes);
-    // console.log(arrivalMinutes);
-    // console.log("current minutes: " + currentMinutes);
-    // console.log("diff between now minutes and arriavla minutes: " + difference);
+    if (currentMinutes >= arrivalMinutes) {
+        difference = (currentMinutes - arrivalMinutes);
+        // console.log(arrivalMinutes);
+        // console.log("current minutes: " + currentMinutes);
+        // console.log("diff between now minutes and arriavla minutes: " + difference);
 
-    //divide diff by frequency get remainder
-    var remainder = (difference % sv.newFrequency)
-    console.log("remainder: " + remainder);
-    //subtract that remainder from frequency = gives us # of minutes to next train
-    var minutesTillTrain = (sv.newFrequency - remainder);
-    console.log("Minutes till train: " + minutesTillTrain);
-    // add that to moment()
-    var nextTrainMinutes = (currentMinutes + minutesTillTrain);
-    console.log("next train minutes: " + nextTrainMinutes);
-    var nextTrain = moment().add(minutesTillTrain, "minutes").format("H:mm A");
-    // var hours = nextTrainMinutes / 60
-    // var minutes = nextTrainMinutes % 60
-    // console.log(hours)
-    // console.log(minutes)
-    // moment(hours, minutes).format("HH:mm")
-    // console.log(nextTrain)
-    // var nextTrain = moment.duration(nextTrainMinutes, 'minutes');
-    // console.log("next train: " + nextTrain);
-
-
-
+        //divide diff by frequency get remainder
+        var remainder = (difference % sv.newFrequency)
+        console.log("remainder: " + remainder);
+        //subtract that remainder from frequency = gives us # of minutes to next train
+        minutesTillTrain = (sv.newFrequency - remainder);
+        console.log("Minutes till train: " + minutesTillTrain);
+        // add that to moment()
+        var nextTrainMinutes = (currentMinutes + minutesTillTrain);
+        console.log("next train minutes: " + nextTrainMinutes);
+        nextTrain = moment().add(minutesTillTrain, "minutes").format("h:mm A");
+    }
+    else {
+        minutesTillTrain = (arrivalMinutes - currentMinutes);
+        nextTrain = moment().add(minutesTillTrain, "minutes").format("h:mm A");
+    }
 
 
     // Console log the last input
